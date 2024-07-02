@@ -19,6 +19,14 @@ export class favorites {
     }
   ]
   }
+
+  delete(user) {
+    const filteredEntries = this.entries.
+    filter(entry => entry.login !== user.login)
+
+    this.entries = filteredEntries
+    this.update()
+  }
 }
 
 export class favoritesView extends favorites {
@@ -43,6 +51,15 @@ export class favoritesView extends favorites {
     row.querySelector('.user span').textContent = user.login
     row.querySelector('.repositories').textContent = user.public_repositories    
     row.querySelector('.followers').textContent = user.followers    
+    
+    row.querySelector('.remove').onclick = () => {
+      const isOk = confirm('are you sure you want delete it ? ') 
+      
+      if(isOk){
+        this.delete(user)
+      }
+    }
+    
     this.tbody.append(row)
    })
 

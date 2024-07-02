@@ -143,4 +143,9 @@ td .remove {
   background: none;
   border: none;
   color: rgb(107, 27, 27);
+  cursor: pointer;
+}
+
+td .remove:hover {
+  color: rgb(255, 150, 150);
 }
