@@ -19,6 +19,12 @@ export class favorites {
     this.load()
   }
 
+  async add(username) {
+    const user = await githubUser.search(username)
+
+    
+  }
+
   load(){
   this.entries = JSON.parse(localStorage
     .getItem('@github-favorites:')) || []
@@ -40,6 +46,16 @@ export class favoritesView extends favorites {
     this.tbody = this.root.querySelector('table tbody')
 
     this.update()
+    this.onAdd()
+  }
+
+  onAdd() {
+    const addButton = this.root.querySelector('.search button')
+    addButton.onclick = () => {
+      const { value } = this.root.querySelector('.search input')
+
+      this.add(value)
+    }
   }
   
   update() {
