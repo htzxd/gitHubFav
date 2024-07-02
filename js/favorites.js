@@ -1,3 +1,18 @@
+export class githubUser {
+  static search(username) {
+    const endpoint = `https://api.github.com/users/${username}`
+
+    return fetch(endpoint)
+    .then(data => data.json())
+    .then(( { login, name, public_repos, followers } ) => ({
+      login,
+      name,
+      public_repos,
+      followers
+    }))
+  }
+}
+
 export class favorites {
   constructor(root) {
     this.root = document.querySelector(root)
@@ -5,19 +20,8 @@ export class favorites {
   }
 
   load(){
-    this.entries =[{
-      login: 'htzxd',
-      user: "Marco Pereira",
-      public_repositories: '22',
-      followers: '4'
-    },
-    {
-      login: 'esterzanato',
-      user: "Ester Zanato",
-      public_repositories: '10',
-      followers: '10'
-    }
-  ]
+  this.entries = JSON.parse(localStorage
+    .getItem('@github-favorites:')) || []
   }
 
   delete(user) {
