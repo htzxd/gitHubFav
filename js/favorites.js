@@ -1,17 +1,4 @@
-export class githubUser {
-  static search(username) {
-    const endpoint = `https://api.github.com/users/${username}`
-
-    return fetch(endpoint)
-    .then(data => data.json())
-    .then(( { login, name, public_repos, followers } ) => ({
-      login,
-      name,
-      public_repos,
-      followers
-    }))
-  }
-}
+import { githubUser } from "./gitHubUser.js"
 
 export class favorites {
   constructor(root) {
@@ -19,10 +6,30 @@ export class favorites {
     this.load()
   }
 
-  async add(username) {
-    const user = await githubUser.search(username)
+  save() {
+    localStorage.setItem('@github-favorites:', JSON.stringify(this.entries))
+  }
 
-    
+  async add(username) {
+    try {
+      
+      const user = await githubUser.search(username)
+      const UserExist = this.entries.find(entry => entry.login === username)
+      
+      if (UserExist) {
+        throw new Error('user already register')
+      }
+
+      if (user.login === undefined) {
+        throw new Error ('user not found')
+      }
+
+      this.entries = [user, ...this.entries]
+      this.update()
+      this.save()
+      } catch (error) {
+        alert(error.message)
+      }
   }
 
   load(){
@@ -69,7 +76,7 @@ export class favoritesView extends favorites {
     row.querySelector('.user img').alt = `image of ${user.name}`
     row.querySelector('.user p').textContent = user.name
     row.querySelector('.user span').textContent = user.login
-    row.querySelector('.repositories').textContent = user.public_repositories    
+    row.querySelector('.repos').textContent = user.public_repos   
     row.querySelector('.followers').textContent = user.followers    
     
     row.querySelector('.remove').onclick = () => {
@@ -97,7 +104,7 @@ export class favoritesView extends favorites {
           <p> Marco Pereira</p>
           <span>marcopereira</span>
         </td>
-        <td class="repositories">
+        <td class="repos">
           22
         </td>
         <td class="followers">
