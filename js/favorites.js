@@ -75,6 +75,7 @@ export class favoritesView extends favorites {
     https://github.com/${user.login}.png`
     row.querySelector('.user img').alt = `image of ${user.name}`
     row.querySelector('.user p').textContent = user.name
+    row.querySelector('.user a').href = `https://github.com/${user.login}`
     row.querySelector('.user span').textContent = user.login
     row.querySelector('.repos').textContent = user.public_repos   
     row.querySelector('.followers').textContent = user.followers    
@@ -100,7 +101,7 @@ export class favoritesView extends favorites {
         
         <td class="user">
           <img src="https://github.com/htzxd.png" alt="photograph de marco">
-          <a href="https://github.com/htzxd" target="_blank"></a>
+          <a href="https://github.com/htzxd" target="_blank">
           <p> Marco Pereira</p>
           <span>marcopereira</span>
         </td>
